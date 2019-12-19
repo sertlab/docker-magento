@@ -1,5 +1,5 @@
 #!/bin/bash
-BASE_URL=${1:-magento2.test}
+INSTALL_ID=${1}
 
 bin/stop
 
@@ -8,6 +8,9 @@ sed -e 's/5f5929ef9f2ec4ca048a2add261d22c92807630f/ce31e720d60451784b9fdb3769e43
 
 docker-compose -f docker-compose.yml up --scale app=3 -d
 sleep 1 #Ensure containers are started...
+
+magento_port=$(docker inspect "$($INSTALL_ID)_app_1" | jq -r '.[0].NetworkSettings.Ports["5000/tcp"][0].HostPort')
+magento_base_uri="$(hostname):$magento_port"
 
 curl -O https://files.magerun.net/n98-magerun2.phar
 chmod +x n98-magerun2.phar
@@ -58,7 +61,7 @@ bin/clinotty bin/magento setup:install \
   --db-name=magento \
   --db-user=magento \
   --db-password=magento \
-  --base-url=https://$BASE_URL/ \
+  --base-url=http://$magento_base_uri/ \
   --admin-firstname=John \
   --admin-lastname=Smith \
   --admin-email=ddg-admin@emailsim.io \
@@ -98,4 +101,4 @@ echo "Restarting containers with host bind mounts for dev..."
 bin/restart
 
 echo "Docker development environment setup complete."
-echo "You may now access your Magento instance at https://${BASE_URL}/"
+echo "You may now access your Magento instance at http://${magento_base_uri}/"
