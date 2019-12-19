@@ -12,6 +12,8 @@ sleep 1 #Ensure containers are started...
 magento_port=$(docker inspect "${INSTALL_ID}_app_1" | jq -r '.[0].NetworkSettings.Ports["5000/tcp"][0].HostPort')
 magento_base_uri="$(hostname):$magento_port"
 
+echo "Generated magneto base uri:$magento_base_uri"
+
 curl -O https://files.magerun.net/n98-magerun2.phar
 chmod +x n98-magerun2.phar
 mv n98-magerun2.phar src/bin/n98-magerun2.phar
