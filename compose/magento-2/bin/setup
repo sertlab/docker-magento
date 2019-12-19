@@ -64,9 +64,9 @@ bin/clinotty bin/magento setup:install \
   --admin-email=ddg-admin@emailsim.io \
   --admin-user=ddg-admin \
   --admin-password=password123 \
-  --language=en_US \
-  --currency=USD \
-  --timezone=America/New_York \
+  --language=en_GB \
+  --currency=GBP \
+  --timezone=Europe/London \
   --use-rewrites=1
   --backend-frontname=admin
 
