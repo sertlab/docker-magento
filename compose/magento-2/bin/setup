@@ -61,8 +61,8 @@ bin/clinotty bin/magento setup:install \
   --base-url=https://$BASE_URL/ \
   --admin-firstname=John \
   --admin-lastname=Smith \
-  --admin-email=john.smith@gmail.com \
-  --admin-user=john.smith \
+  --admin-email=ddg-admin@emailsim.io \
+  --admin-user=ddg-admin \
   --admin-password=password123 \
   --language=en_US \
   --currency=USD \
