@@ -61,13 +61,14 @@ bin/clinotty bin/magento setup:install \
   --base-url=https://$BASE_URL/ \
   --admin-firstname=John \
   --admin-lastname=Smith \
-  --admin-email=john.smith@gmail.com \
-  --admin-user=john.smith \
+  --admin-email=ddg-admin@emailsim.io \
+  --admin-user=ddg-admin \
   --admin-password=password123 \
-  --language=en_US \
-  --currency=USD \
-  --timezone=America/New_York \
+  --language=en_GB \
+  --currency=GBP \
+  --timezone=Europe/London \
   --use-rewrites=1
+  --backend-frontname=admin
 
 echo "Turning on developer mode.."
 bin/clinotty bin/magento deploy:mode:set developer
@@ -75,7 +76,7 @@ bin/clinotty bin/magento deploy:mode:set developer
 bin/clinotty bin/magento indexer:reindex
 
 echo "Forcing deploy of static content to speed up initial requests..."
-bin/clinotty bin/magento setup:static-content:deploy -f 
+bin/clinotty bin/magento setup:static-content:deploy -f
 
 echo "Enabling Redis for cache..."
 bin/clinotty bin/magento setup:config:set --no-interaction --cache-backend=redis --cache-backend-redis-server=redis --cache-backend-redis-db=0
