@@ -73,7 +73,8 @@ bin/clinotty bin/magento setup:install \
   --currency=GBP \
   --timezone=Europe/London \
   --use-rewrites=1 \
-  --backend-frontname=admin
+  --backend-frontname=admin \
+  --use-secure-admin="1"
 
 echo "Turning on developer mode.."
 bin/clinotty bin/magento deploy:mode:set developer
