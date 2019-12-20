@@ -10,9 +10,15 @@ docker-compose -f docker-compose.yml up -d
 sleep 1 #Ensure containers are started...
 
 magento_port=$(docker inspect "${INSTALL_ID}_app_1" | jq -r '.[0].NetworkSettings.Ports["8443/tcp"][0].HostPort')
-magento_base_uri="$(hostname):$magento_port"
 
-echo "Generated magneto base uri:$magento_base_uri"
+if [[ $magento_port = '443' ]];
+    magento_base_uri="https://$(hostname)/"
+then
+else
+    magento_base_uri="https://$(hostname):$magento_port/"
+fi
+
+echo "Generated magneto base uri: $magento_base_uri"
 
 curl -O https://files.magerun.net/n98-magerun2.phar
 chmod +x n98-magerun2.phar
@@ -63,7 +69,8 @@ bin/clinotty bin/magento setup:install \
   --db-name=magento \
   --db-user=magento \
   --db-password=magento \
-  --base-url=https://$magento_base_uri/ \
+  --base-url=$magento_base_uri \
+  --base-url-secure=$magento_base_uri \
   --admin-firstname=John \
   --admin-lastname=Smith \
   --admin-email=ddg-admin@emailsim.io \
@@ -74,7 +81,7 @@ bin/clinotty bin/magento setup:install \
   --timezone=Europe/London \
   --use-rewrites=1 \
   --backend-frontname=admin \
-  --base-url-secure=https://$magento_base_uri/
+  --use-secure-admin="1"
 
 echo "Turning on developer mode.."
 bin/clinotty bin/magento deploy:mode:set developer
@@ -104,5 +111,5 @@ echo "Restarting containers with host bind mounts for dev..."
 bin/restart
 
 echo "Docker development environment setup complete."
-echo "You may now access your Magento instance at https://${magento_base_uri}/"
-echo "##vso[task.setvariable variable=MagentoHostname]https://${magento_base_uri}/"
+echo "You may now access your Magento instance at ${magento_base_uri}"
+echo "##vso[task.setvariable variable=MagentoHostname]${magento_base_uri}"
