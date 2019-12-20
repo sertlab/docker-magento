@@ -63,7 +63,7 @@ bin/clinotty bin/magento setup:install \
   --db-name=magento \
   --db-user=magento \
   --db-password=magento \
-  --base-url=http://$magento_base_uri/ \
+  --base-url=https://$magento_base_uri/ \
   --base-url-secure=https://$magento_base_uri/ \
   --admin-firstname=John \
   --admin-lastname=Smith \
