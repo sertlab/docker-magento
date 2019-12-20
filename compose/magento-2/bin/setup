@@ -12,8 +12,8 @@ sleep 1 #Ensure containers are started...
 magento_port=$(docker inspect "${INSTALL_ID}_app_1" | jq -r '.[0].NetworkSettings.Ports["8443/tcp"][0].HostPort')
 
 if [[ $magento_port = '443' ]];
-    magento_base_uri="https://$(hostname)/"
 then
+    magento_base_uri="https://$(hostname)/"
 else
     magento_base_uri="https://$(hostname):$magento_port/"
 fi
